@@ -1,0 +1,485 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sealine.catering;
+
+import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;
+import DBConnect.DBConnect;
+import DBConnect.DBConnect;
+//
+import net.proteanit.sql.DbUtils;
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.awt.*;
+import javax.swing.JOptionPane;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
+/**
+ *
+ * @author charith ellawala
+ */
+public class MenuAdd extends javax.swing.JFrame {
+
+    /**
+     * Creates new form AddItem
+     */
+    public MenuAdd() {
+        initComponents();
+        setLabel();
+      // fillCombo();
+        updateTable();
+    }
+
+    DBConnect connect=new DBConnect();
+    Connection conn=null;
+    ResultSet rs=null;
+    PreparedStatement pst=null;
+     Statement st = null;
+    
+     String inout;
+     
+     private void clearForm(){
+    
+    txt_menuname.setText("");
+    lbl_menuid.setText("");
+    txt_menuprice.setText("");
+    // txt_price.setText("");
+      
+    }
+     
+     
+     
+
+     private void addmenu(){
+        
+        try{
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            conn =DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel","root","");
+            st=conn.createStatement();
+//            JOptionPane.showConfirmDialog(null, "Connection Successfully Completed");
+            System.out.println("Connection Successfully Completed");
+            
+            String query="INSERT INTO menu VALUES('" +event_cmbx.getSelectedItem() +"','"+ lbl_menuid.getText() +"','"+ txt_menuname.getText()+"','" + inout + "','"+ txt_menuprice.getText() + "')";
+
+            
+              connect.st.executeUpdate(query);
+
+            
+        }catch(Exception ex){
+               JOptionPane.showMessageDialog(null, "record added successfully");
+         JOptionPane.showMessageDialog(rootPane, ex);
+         }
+        updateTable();
+     }
+     
+     
+     
+          private void tableRowClicked(){
+    
+                    try{
+                    int row=tbl_menu.getSelectedRow();
+                    String table_click=(tbl_menu.getModel().getValueAt(row,1).toString());
+                    String sql="select * from menu where menuId='"+table_click+"' ";
+
+                     connect.rs=connect.st.executeQuery(sql);
+
+                     if(connect.rs.next()){
+                     String event=connect.rs.getString("event");
+                     event_cmbx.setSelectedItem(event);
+                     String menuname=connect.rs.getString("menu_name");
+                     txt_menuname.setText(menuname);
+                     String menuId=connect.rs.getString("menuId");
+                     lbl_menuid.setText(menuId);
+                     String menuprice=connect.rs.getString("menu_price");
+                     txt_menuprice.setText(menuprice);
+                     }
+
+                    }catch(Exception ex){
+                         JOptionPane.showMessageDialog(null, ex);
+                       }
+               }
+   
+   
+
+     
+     
+     private void updateTable(){
+        try{
+               String sql="select * from menu";
+               connect.rs=connect.st.executeQuery(sql);
+               tbl_menu.setModel(DbUtils.resultSetToTableModel(connect.rs));
+               System.out.println("connect");
+        
+        }catch(Exception ex){
+                JOptionPane.showMessageDialog(null, ex);
+                JOptionPane.showMessageDialog(null, "was not updated the table");
+      
+        }
+     }
+    
+
+    
+      private void setLabel() {
+
+        try {
+
+                String query="select * from menu";
+                connect.rs = connect.st.executeQuery(query);
+                int max=0;
+                while(connect.rs.next()){
+                String item_no=connect.rs.getString("menuId");
+                int item_no_int=Integer.parseInt(item_no.substring(4,7));
+                if(item_no_int>max){
+                max=item_no_int;
+                }else{
+                max=max;
+                }
+                lbl_menuid.setText("menu"+Integer.toString(max+1));
+               //  String menuId="ORDR"+Integer.toString(max+1);
+                
+                }
+                } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(rootPane,ex);
+                        JOptionPane.showMessageDialog(null, "couldn't find menu Number");
+
+                }
+    }
+     
+    
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        event_cmbx = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        txt_menuname = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        lbl_menuid = new javax.swing.JLabel();
+        rdb_indoor = new javax.swing.JRadioButton();
+        rdb_outdoor = new javax.swing.JRadioButton();
+        jLabel6 = new javax.swing.JLabel();
+        txt_menuprice = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_menu = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Event Name");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 34, 81, 32));
+
+        event_cmbx.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        event_cmbx.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Wedding", "BirthdayParty", "Aniversary", "Get-together", "Functions", " ", " " }));
+        jPanel4.add(event_cmbx, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 34, 104, 32));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Menu Name");
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 113, 91, 30));
+        jPanel4.add(txt_menuname, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 104, 36));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Menu ID");
+        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 194, 80, 30));
+
+        lbl_menuid.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_menuid.setText("jLabel5");
+        jPanel4.add(lbl_menuid, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 194, 100, 30));
+
+        buttonGroup1.add(rdb_indoor);
+        rdb_indoor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rdb_indoor.setText("Indoor");
+        rdb_indoor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdb_indoorActionPerformed(evt);
+            }
+        });
+        jPanel4.add(rdb_indoor, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, 100, -1));
+
+        buttonGroup1.add(rdb_outdoor);
+        rdb_outdoor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rdb_outdoor.setText("Outdoor");
+        rdb_outdoor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdb_outdoorActionPerformed(evt);
+            }
+        });
+        jPanel4.add(rdb_outdoor, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 100, -1));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("Menu Price");
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 364, 90, 20));
+
+        txt_menuprice.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPanel4.add(txt_menuprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 120, 40));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 140, 30));
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 140, 30));
+
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton3.setText("Update");
+        jPanel4.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 540, 140, -1));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        tbl_menu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbl_menu.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbl_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_menuMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_menu);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 800, 650));
+
+        jMenu3.setText("Menu");
+        jMenu3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Menu Selection");
+        jMenu4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Payments");
+        jMenu5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        jMenu7.setText("Items");
+        jMenu7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu7MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu7);
+
+        jMenu8.setText("Reports");
+        jMenu8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenuBar1.add(jMenu8);
+
+        setJMenuBar(jMenuBar1);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void rdb_indoorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_indoorActionPerformed
+        if(rdb_indoor.isSelected()) 
+        inout="indoor";
+      else  
+        inout="outdoor";
+    }//GEN-LAST:event_rdb_indoorActionPerformed
+
+    private void rdb_outdoorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_outdoorActionPerformed
+       // inout="outdoor";
+    }//GEN-LAST:event_rdb_outdoorActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        addmenu();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tbl_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_menuMouseClicked
+        tableRowClicked();
+    }//GEN-LAST:event_tbl_menuMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+         MenuSelection mselection=new   MenuSelection();
+         mselection.setVisible(true);
+          this.dispose();
+    }//GEN-LAST:event_jMenu4MouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        PaymentRecords paym=new PaymentRecords();
+         paym.setVisible(true);
+          this.dispose();
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+      
+        ItemAdd item=new ItemAdd();
+         item.setVisible(true);
+          this.dispose();
+        
+    }//GEN-LAST:event_jMenu7MouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MenuAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MenuAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MenuAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MenuAdd.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MenuAdd().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox event_cmbx;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_menuid;
+    private javax.swing.JRadioButton rdb_indoor;
+    private javax.swing.JRadioButton rdb_outdoor;
+    private javax.swing.JTable tbl_menu;
+    private javax.swing.JTextField txt_menuname;
+    private javax.swing.JTextField txt_menuprice;
+    // End of variables declaration//GEN-END:variables
+}
